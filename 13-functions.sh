@@ -2,13 +2,13 @@
 
 USERID=$(id -u)
 
-if [ $? -ne 0 ]; then
-    echo "ERROR:: Run with root user"
-    exit 1
+if [ $USERID -ne 0 ]; then
+    echo "ERROR:: Please run this script with root privelege"
+    exit 1 # failure is other than 0
 fi
 
-VALIDATE(){
-    if [ $1 -ne 0]; then
+VALIDATE(){ # functions receive inputs through args just like shell script args
+    if [ $1 -ne 0 ]; then
         echo "ERROR:: Installing $2 is failure"
         exit 1
     else
@@ -20,8 +20,7 @@ dnf install mysql -y
 VALIDATE $? "MySQL"
 
 dnf install nginx -y
-VALIDATE $? "Ngix"
+VALIDATE $? "Nginx"
 
 dnf install python3 -y
-VALIDATE $? "Python"
-
+VALIDATE $? "python3"
